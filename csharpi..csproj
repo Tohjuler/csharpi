@@ -6,4 +6,10 @@
     <RootNamespace>csharpi_</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="DSharpPlus" Version="4.1.0" />
+    <PackageReference Include="DSharpPlus.CommandsNext" Version="4.1.0" />
+    <PackageReference Include="DSharpPlus.Interactivity" Version="4.1.0" />
+  </ItemGroup>
+
 </Project>
