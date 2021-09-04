@@ -30,6 +30,36 @@ namespace csharpi_
 
         [Command("wakeop")]
         public async Task WakeOp(CommandContext ctx) {
+            if (!(ctx.Channel.Name.Equals("acc_tohjuler_console"))) {
+                var errorEmbed = new DiscordEmbedBuilder {
+                    Title = "Wake On Lan",
+                    Description = "Du kan ikke bruge denne command here",
+                    Color = DiscordColor.Red
+                };
+                await ctx.Channel.SendMessageAsync(embed:errorEmbed);
+                return;
+            }
+            
+            if (!(ctx.Channel.Parent.Name.Equals("Acc_tohjuler"))) {
+                var errorEmbed = new DiscordEmbedBuilder {
+                    Title = "Wake On Lan",
+                    Description = "Du kan ikke bruge denne command here",
+                    Color = DiscordColor.Red
+                };
+                await ctx.Channel.SendMessageAsync(embed:errorEmbed);
+                return;
+            }
+
+            if (!(ctx.Member.Id == 593362237444325391)) {
+                var errorEmbed = new DiscordEmbedBuilder {
+                    Title = "Wake On Lan",
+                    Description = "Du kan ikke bruge denne command",
+                    Color = DiscordColor.Red
+                };
+                await ctx.Channel.SendMessageAsync(embed:errorEmbed);
+                return;
+            }
+
             var macAddress = "9C-7B-EF-38-A6-78";                      // Our device MAC address
             macAddress = Regex.Replace(macAddress, "[-|:]", "");       // Remove any semicolons or minus characters present in our MAC address
             
@@ -63,6 +93,13 @@ namespace csharpi_
             
             sock.SendTo(payload, new IPEndPoint(IPAddress.Parse("255.255.255.255"), 0));  // Broadcast our packet
             sock.Close(10000);
+
+            var embed = new DiscordEmbedBuilder {
+                Title = "Wake On Lan",
+                Description = "Pakke sendt",
+                Color = DiscordColor.Blue
+            };
+            await ctx.Channel.SendMessageAsync(embed:embed);
         }
 
     }
