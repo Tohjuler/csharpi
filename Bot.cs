@@ -15,6 +15,8 @@ namespace csharpi_
 {
     public class Bot
     {
+        public string[] onlineAccs = new string[5];
+
         public DiscordClient Client { get; private set; }
         public InteractivityExtension Interactivity { get; private set;}
         public CommandsNextExtension Commands {get; private set;}
@@ -54,6 +56,8 @@ namespace csharpi_
 
             Commands.RegisterCommands<FunCommands>(); 
             Commands.RegisterCommands<TeamCommands>(); 
+            Commands.RegisterCommands<LoginCommand>(); 
+            Commands.RegisterCommands<tohjulerAccCommands>();
 
             await this.Client.ConnectAsync();
 
