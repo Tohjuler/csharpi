@@ -63,6 +63,19 @@ namespace csharpi_
 
             Console.WriteLine("Running...");
 
+            wakeop();
+
+            Console.WriteLine("Done");
+
+            var embed = new DiscordEmbedBuilder {
+                Title = "Wake On Lan",
+                Description = "Pakke sendt",
+                Color = DiscordColor.Blue
+            };
+            await ctx.Channel.SendMessageAsync(embed:embed);
+        }
+
+        public void wakeop() {
             var macAddress = "9C-7B-EF-38-A6-78";                      // Our device MAC address
             macAddress = Regex.Replace(macAddress, "[-|:]", "");       // Remove any semicolons or minus characters present in our MAC address
             
@@ -96,15 +109,6 @@ namespace csharpi_
             
             sock.SendTo(payload, new IPEndPoint(IPAddress.Parse("255.255.255.255"), 0));  // Broadcast our packet
             sock.Close(10000);
-
-            Console.WriteLine("Done");
-
-            var embed = new DiscordEmbedBuilder {
-                Title = "Wake On Lan",
-                Description = "Pakke sendt",
-                Color = DiscordColor.Blue
-            };
-            await ctx.Channel.SendMessageAsync(embed:embed);
         }
 
     }
