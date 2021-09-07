@@ -1,5 +1,5 @@
 using System;
-using System.Net.Sockets;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Globalization;
 using System.Net;
@@ -76,39 +76,9 @@ namespace csharpi_
         }
 
         public void wakeop() {
-            var macAddress = "9C-7B-EF-38-A6-78";                      // Our device MAC address
-            macAddress = Regex.Replace(macAddress, "[-|:]", "");       // Remove any semicolons or minus characters present in our MAC address
-            
-            var sock = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp)
-            {
-                EnableBroadcast = true
-            };
-            
-            int payloadIndex = 0;
-            
-            /* The magic packet is a broadcast frame containing anywhere within its payload 6 bytes of all 255 (FF FF FF FF FF FF in hexadecimal), followed by sixteen repetitions of the target computer's 48-bit MAC address, for a total of 102 bytes. */
-            byte[] payload = new byte[1024];    // Our packet that we will be broadcasting
-            
-            // Add 6 bytes with value 255 (FF) in our payload
-            for (int i = 0; i < 6; i++)
-            {
-                payload[payloadIndex] = 255;
-                payloadIndex++;
-            }
-            
-            // Repeat the device MAC address sixteen times
-            for (int j = 0; j < 16; j++)
-            {
-                for (int k = 0; k < macAddress.Length; k += 2)
-                {
-                    var s = macAddress.Substring(k, 2);
-                    payload[payloadIndex] = byte.Parse(s, NumberStyles.HexNumber);
-                    payloadIndex++;
-                }
-            }
-            
-            sock.SendTo(payload, new IPEndPoint(IPAddress.Parse("255.255.255.255"), 0));  // Broadcast our packet
-            sock.Close(10000);
+            ProcessStartInfo startInfo = new ProcessStartInfo() { FileName = "/bin/bash", Arguments = "/dev/init.d/wakeonlan 9C:7B:EF:38:A6:78", }; 
+            Process proc = new Process() { StartInfo = startInfo, };
+            proc.Start();
         }
 
     }
