@@ -76,7 +76,7 @@ namespace csharpi_
         }
 
         public void wakeop() {
-            ProcessStartInfo startInfo = new ProcessStartInfo() { FileName = "/bin/bash", Arguments = "/dev/init.d/wakeonlan 9C:7B:EF:38:A6:78", }; 
+            ProcessStartInfo startInfo = new ProcessStartInfo() { FileName = "/bin/wakeonlan", Arguments = "9C:7B:EF:38:A6:78", }; 
             Process proc = new Process() { StartInfo = startInfo, };
             proc.Start();
         }
